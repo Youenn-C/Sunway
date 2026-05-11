@@ -35,6 +35,7 @@ public class MS_PlayerBrain : MonoBehaviour
     public bool isMoving;
     public bool isGrounded;
     public bool buildModOn = false;
+    public bool freeBuildOn = true;
     
     [Header("Rewired"), Space(5)]
     public int playerID;
@@ -77,7 +78,15 @@ public class MS_PlayerBrain : MonoBehaviour
             
             if (customHit.collider != null)
             {
-                hitLocation = (new Vector3(Mathf.Round(customHit.point.x), Mathf.Round(customHit.point.y), Mathf.Round(customHit.point.z))) * MS_GameManager.Instance.gridSize;
+                if (freeBuildOn)
+                {
+                    hitLocation = new Vector3(customHit.point.x, customHit.point.y, customHit.point.z);
+                }
+                else
+                {
+                    hitLocation = (new Vector3(Mathf.Round(customHit.point.x), Mathf.Round(customHit.point.y), Mathf.Round(customHit.point.z))) * MS_GameManager.Instance.gridSize;
+                }
+                
                 OnDrawGizmos();
             }
         }
@@ -89,6 +98,11 @@ public class MS_PlayerBrain : MonoBehaviour
         buildModUI.SetActive(buildModOn);
     }
     
+    private void Toggle_Free_Build()
+    {
+        freeBuildOn = !freeBuildOn;
+        //buildModUI.SetActive(buildModOn);
+    }
     
     [Space(50)]
     [Header("Sphere debug parameters"), Space(5)]
