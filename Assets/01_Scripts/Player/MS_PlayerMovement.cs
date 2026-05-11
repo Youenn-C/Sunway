@@ -5,6 +5,8 @@ public class MS_PlayerMovement : MonoBehaviour
     [Header("Variables"), Space(5)]
     [SerializeField] private float _forwardMovement;
     [SerializeField] private float _lateralMovement;
+    [Space(5)]
+    [SerializeField] private bool _triggerJump;
     
     void Start()
     {
@@ -54,7 +56,7 @@ public class MS_PlayerMovement : MonoBehaviour
         
         if (MS_PlayerBrain.Instance.player.GetButtonDown("Jump") && MS_PlayerBrain.Instance.isGrounded)
         {
-            MS_PlayerBrain.Instance.playerRigidbody.AddForce(Vector3.up * MS_PlayerBrain.Instance.jumpForce, ForceMode.Impulse);
+            _triggerJump = true;
         }
     }
     
@@ -75,6 +77,12 @@ public class MS_PlayerMovement : MonoBehaviour
             velocity.y = MS_PlayerBrain.Instance.playerRigidbody.linearVelocity.y;
     
             MS_PlayerBrain.Instance.playerRigidbody.linearVelocity = velocity;
+        }
+
+        if (_triggerJump)
+        {
+            _triggerJump = false;
+            MS_PlayerBrain.Instance.playerRigidbody.AddForce(Vector3.up * MS_PlayerBrain.Instance.jumpForce, ForceMode.Impulse);
         }
     }
     
