@@ -1903,7 +1903,7 @@ namespace Rewired.Glyphs.UnityUI {
                         result = TryGetActionElementMaps(
                             playerId,
                             actionId,
-                            AxisRange.Full,
+                            actionRange,
                             options,
                             GetInternalIsAllowedHandler(),
                             resultIndex,

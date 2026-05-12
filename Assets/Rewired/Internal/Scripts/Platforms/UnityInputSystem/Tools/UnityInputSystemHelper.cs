@@ -13,6 +13,7 @@ namespace Rewired.Platforms.UnityInputSystem {
         private static bool s_runInBackground;
         private static bool s_ignoreInputWhenAppNotInFocus;
         private static int s_lastSettingsSyncUnityFrame;
+        private static int s_lastUpdateUnityFrame;
 
         static UnityInputSystemHelper() {
             StaticInitialize();
@@ -24,23 +25,33 @@ namespace Rewired.Platforms.UnityInputSystem {
             s_runInBackground = false;
             s_ignoreInputWhenAppNotInFocus = false;
             s_lastSettingsSyncUnityFrame = -1;
+            s_lastUpdateUnityFrame = int.MaxValue;
         }
 
         // This can be called from both UnityInputManagerProxy and UnityInputSystemInputSource on each frame
         internal static void Update() {
             if (!Rewired.ReInput.isReady) return;
-            if (s_lastRewiredAbsFrame == Rewired.ReInput.time.absFrame) return; // already updated this frame
+            if (s_lastRewiredAbsFrame == Rewired.ReInput.time.absFrame) return; // already updated this Rewired frame
+            s_lastRewiredAbsFrame = Rewired.ReInput.time.absFrame;
             UpdateSynchronizedSettings();
-            
-            // Run the manual update
+
+            // Update is no longer manually pumped every Rewired update loop due to problems with touch input and interference
+            // with other scripts and plugins that may rely on Unity Input System.
 
             // Force manual update if it somehow got changed
             if (UnityEngine.InputSystem.InputSystem.settings.updateMode != UnityEngine.InputSystem.InputSettings.UpdateMode.ProcessEventsManually) {
                 UnityEngine.InputSystem.InputSystem.settings.updateMode = UnityEngine.InputSystem.InputSettings.UpdateMode.ProcessEventsManually;
             }
 
-            // Run the update
-            UnityEngine.InputSystem.InputSystem.Update();
+            // Pump the InputSystem update only once per Unity frame, unless in Manual update mode.
+            // If FixedUpdate is enabled, this will be called on the first of either FixedUpdate
+            // or Update, effectively mirroring InputManager's update time.
+            // Allow updating every call if manual mode.
+            int unityFrame = UnityEngine.Time.frameCount;
+            if (Rewired.ReInput.configuration.updateMode == Config.UpdateMode.Manual || s_lastUpdateUnityFrame != unityFrame) {
+                s_lastUpdateUnityFrame = unityFrame;
+                UnityEngine.InputSystem.InputSystem.Update();
+            }
         }
 
         private static void UpdateSynchronizedSettings() {
