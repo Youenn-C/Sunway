@@ -21,7 +21,6 @@ public class MS_PlayerBrain : MonoBehaviour
     public Collider playerCollider;
     [Space(15)]
     public MS_PlayerMovement playerMovement;
-    public MS_BuildMod_Manager buildModManager;
     
     [Header("Variables"), Space(5)]
     [Range(0,1)] public float sensibility;
@@ -41,9 +40,6 @@ public class MS_PlayerBrain : MonoBehaviour
     public int playerID;
     public Player player;
     
-    
-    
-    
 
     void Awake()
     {
@@ -57,7 +53,7 @@ public class MS_PlayerBrain : MonoBehaviour
 
     private void Start()
     {
-        buildModUI.SetActive(buildModManager.buildModOn);
+        buildModUI.SetActive(MS_BuildMod_Manager.Instance.buildModOn);
     }
 
     void Update()
@@ -69,13 +65,14 @@ public class MS_PlayerBrain : MonoBehaviour
     
     private void Toggle_Build_Mod()
     {
-        buildModManager.buildModOn = !buildModManager.buildModOn;
-        buildModUI.SetActive(buildModManager.buildModOn);
+        MS_BuildMod_Manager.Instance.buildModOn = !MS_BuildMod_Manager.Instance.buildModOn;
+        buildModUI.SetActive(MS_BuildMod_Manager.Instance.buildModOn);
+        MS_BuildMod_Manager.Instance.Toggle_Preview();
     }
     
     private void Toggle_Free_Build()
     {
-        buildModManager.freeBuildOn = !buildModManager.freeBuildOn;
+        MS_BuildMod_Manager.Instance.freeBuildOn = !MS_BuildMod_Manager.Instance.freeBuildOn;
         //freeBuildModUI.SetActive(freeBuildOn);
     }
     
