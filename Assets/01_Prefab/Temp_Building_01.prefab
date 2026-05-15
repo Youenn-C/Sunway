@@ -121,6 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8119456079473506239}
+  - component: {fileID: 5071000813411587575}
   m_Layer: 0
   m_Name: Temp_Building_01
   m_TagString: Untagged
@@ -145,6 +146,19 @@ Transform:
   - {fileID: 4388347584632369171}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5071000813411587575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975638916684303543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeaec470906801b4a81b5aa2e4ebe0c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MS_Building
+  _buildingSprite: {fileID: 21300000, guid: 32ed3418211065741bdb8779822bd520, type: 3}
 --- !u!1 &8572989432706283096
 GameObject:
   m_ObjectHideFlags: 0

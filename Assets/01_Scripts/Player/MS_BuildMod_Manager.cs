@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MS_BuildMod_Manager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MS_BuildMod_Manager : MonoBehaviour
     [Space(5)]
     [SerializeField] private GameObject _prefabPreviewGameObject;
     [SerializeField] private MeshRenderer _prefabPreviewMeshRenderer;
+    [SerializeField] private Image _feedbackImage;
     [Space(5)]
     [SerializeField] private Material _canBePlaceMaterial;
     [SerializeField] private Material _cantBePlaceMaterial;
@@ -44,10 +46,14 @@ public class MS_BuildMod_Manager : MonoBehaviour
     private void Start()
     {
         _prefabPreviewMeshRenderer = _prefabPreviewGameObject.GetComponent<MeshRenderer>();
-        
+
         
         _currentPrefabToInstantiate = _prefabDataBase[_prefabDataBaseIndex];
         Debug.Log(" | Item : " + _currentPrefabToInstantiate.name + " | " + "Index : " + _prefabDataBaseIndex);
+        
+        
+        MS_Building currentMsBuilding = _currentPrefabToInstantiate.GetComponent<MS_Building>();
+        if (currentMsBuilding != null) _feedbackImage.sprite = currentMsBuilding._buildingSprite;
     }
 
     private void Update()
@@ -70,6 +76,9 @@ public class MS_BuildMod_Manager : MonoBehaviour
     
                 _currentPrefabToInstantiate = _prefabDataBase[_prefabDataBaseIndex];
                 Debug.Log(" | Item : " + _currentPrefabToInstantiate.name + " | " + "Index : " + _prefabDataBaseIndex);
+                
+                MS_Building currentMsBuilding = _currentPrefabToInstantiate.GetComponent<MS_Building>();
+                if (currentMsBuilding != null) _feedbackImage.sprite = currentMsBuilding._buildingSprite;
             }
             
             else if (Input.mouseScrollDelta.y < 0)
@@ -85,6 +94,9 @@ public class MS_BuildMod_Manager : MonoBehaviour
     
                 _currentPrefabToInstantiate = _prefabDataBase[_prefabDataBaseIndex];
                 Debug.Log(" | Item : " + _currentPrefabToInstantiate.name + " | " + "Index : " + _prefabDataBaseIndex);
+                
+                MS_Building currentMsBuilding = _currentPrefabToInstantiate.GetComponent<MS_Building>();
+                if (currentMsBuilding != null) _feedbackImage.sprite = currentMsBuilding._buildingSprite;   
             }
             
             // #########################################################################################################
